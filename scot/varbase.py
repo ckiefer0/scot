@@ -257,11 +257,13 @@ class VARBase(object):
         out : bool
             True if the model is stable.
 
+
         References
         ----------
         .. [1] H. Lütkepohl, "New Introduction to Multiple Time Series
-               Analysis", 2005, Springer, Berlin, Germany.
+               Analysis", 2005, Springer, Berlin, Germany. p. 15f
         """
+
         m, mp = self.coef.shape
         p = mp // m
         assert(mp == m * p)  # TODO: replace with raise?
@@ -271,13 +273,16 @@ class VARBase(object):
             top_block.append(self.coef[:, i::p])
         top_block = np.hstack(top_block)
 
-        im = np.eye(m)
-        eye_block = im
-        for i in range(p - 2):
-            eye_block = sp.linalg.block_diag(im, eye_block)
-        eye_block = np.hstack([eye_block, np.zeros((m * (p - 1), m))])
+        if p > 1:
+            im = np.eye(m)
+            eye_block = im
+            for i in range(p - 2):
+                eye_block = sp.linalg.block_diag(im, eye_block)
+            eye_block = np.hstack([eye_block, np.zeros((m * (p - 1), m))])
 
-        tmp = np.vstack([top_block, eye_block])
+            tmp = np.vstack([top_block, eye_block])
+        else:
+            tmp = top_block
 
         return np.all(np.abs(np.linalg.eig(tmp)[0]) < 1)
 
