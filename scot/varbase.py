@@ -261,7 +261,9 @@ class VARBase(object):
         References
         ----------
         .. [1] H. Lütkepohl, "New Introduction to Multiple Time Series
-               Analysis", 2005, Springer, Berlin, Germany. p. 15f
+               Analysis", 2005, Springer, Berlin, Germany.
+               - p. 15f definition of stability
+               - p .25 "A stable process VAR(p) process is stationary."
         """
 
         m, mp = self.coef.shape
